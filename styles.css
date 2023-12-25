@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@500&display=swap');
+
+body {
+    font-family: 'Lobster', sans-serif;
+    background-color: #161A30;
+    color: white;
+
+}
+
+#seleccionar-personaje {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.titulo {
+    color: #F0ECE5;
+    font-size: 70px;
+}
+
+.subtitulo {
+    color: #F0ECE5;
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+}
+
+.tarjetas, .tarjetas-de-ataques  {
+    display: flex;
+    gap: 10px;
+    font-size: 40px;
+}
+
+.tarjeta-de-aventuras {
+    width: 300px;
+    height: 170px;
+    background: #B6BBC4;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 10px;
+    border: 1px solid #31304D;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+.nombre {
+    font-size: 40px;
+}
+
+.tarjeta-de-aventuras img {
+    width: 150px;
+    ;
+}
+
+
+.personajeMensaje {
+    width: 350px;
+    font-size: 20px;
+    color: black;
+    background: #B6BBC4;
+    display: flex;
+}
+
+.botones-ataque {
+    background: #31304D;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    border-color: transparent;
+    width: 200px;
+    color: white;
+    font-family: 'Lobster', sans-serif;
+    height: 50px;
+}
+
+#boton-personaje {
+    width: 180px;
+    height: 30px;
+    border-radius: 20px;
+    border-color: b;
+    background: #B6BBC4;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    margin: 2px;
+}
+
+input {
+    display: none;
+    gap: 10px;
+}
+
+input:checked + label{
+    background-color: red;
+}
+
+#seleccionar-ataque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#mensajes {
+    color: #161A30;
+    background: #B6BBC4;
+    width: 470px;
+    height: 150px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin: 20px;
+    flex-direction: column;
+}
+
+#boton-reiniciar {
+    background: #161A30;
+    color: #B6BBC4;
+    border-radius: 20px;
+    width: 100px;
+    height: 50px;
+    margin: 5px;
+}
+
+.ataques {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    align-items: end;
+    justify-items: center;
+    font-size: 25px;
+    background-color: #31304D;
+    border-radius: 20px;
+
+}
+
+
+
+
+
+@media (max-width: 360px) {
+    .contenedorTarjetas, .tarjetas {
+        flex-direction: column;
+    }
+}
