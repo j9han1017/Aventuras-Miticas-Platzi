@@ -7,7 +7,7 @@ sectionReiniciar.style.display = 'none'
 const sectionSeleccionarPersonaje = document.getElementById('seleccionar-personaje')
 const spanPersonajeJugador = document.getElementById('personaje-jugador')
 
-const spanMascotaEnemigo = document.getElementById('personaje-enemigo')
+const spanPersonajeEnemigo = document.getElementById('personaje-enemigo')
 
 const spanVidasJugador = document.getElementById('vidas-jugador')
 const spanVidasEnemigo = document.getElementById('vidas-enemigo')
@@ -32,8 +32,12 @@ let botonCaballero
 let botonDragon
 let botonTesoro
 let botones = []
-let vidasJugador = 3
-let vidasEnemigo = 3
+let indexAtaqueJugador
+let indexAtaqueEnemigo
+let victoriasJugador = 0;
+let victoriasEnemigo = 0;
+let vidasJugador = 3;
+let vidasEnemigo = 3;
 
 class personajeAventurasMiticas {
     constructor(nombre, foto, vida) {
@@ -113,77 +117,108 @@ function mostrarAtaques(ataques) {
 function secuenciaAtaque() {
     botones.forEach((boton) => {
         boton.addEventListener('click', (e) => {
-            if (e.target.textContent === '💎') {
-                ataqueJugador.push('TESORO')
-                //console.log(ataqueJugador)
-                boton.style.background = '#112f58'
-            }else if (e.target.textContent === '🐉') {
-                ataqueJugador.push('DRAGON')
-                //console.log(ataqueJugador)
-                boton.style.background = '#112f58'
-            }else{
+            if (e.target.textContent === '⚔') {
                 ataqueJugador.push('CABALLERO')
-                //console.log(ataqueJugador)
+                console.log(ataqueJugador)
+                boton.style.background = '#112f58'   
+            } else if (e.target.textContent === '🐉') {
+                ataqueJugador.push('DRAGON')
+                console.log(ataqueJugador)
+                boton.style.background = '#112f58'
+            } else {
+                ataqueJugador.push('TESORO')
+                console.log(ataqueJugador)
                 boton.style.background = '#112f58'
             }
+            ataqueAleatorioEnemigo()
         })
     })
+    
+
 }
 
 function seleccionarMascotaEnemigo() {
-    let personajeAleatorio = aleatorio(0, Personajes.length - 1)
-    spanMascotaEnemigo.innerHTML = Personajes[personajeAleatorio].nombre
-    ataquesPersonajeEnemigo = Personajes[personajeAleatorio].ataques
+    let personajeAleatorio = aleatorio(0, Personajes.length -1)
 
+    spanPersonajeEnemigo.innerHTML = Personajes[personajeAleatorio].nombre
+    ataquesPersonajeEnemigo = Personajes[personajeAleatorio].ataques
     secuenciaAtaque()
 }
 
- 
 function ataqueAleatorioEnemigo() {
-    let ataqueAleatorio = aleatorio(1, ataquesPersonajeEnemigo.length -1)
-
-    if (ataqueAleatorio == 0 || ataqueAleatorio == 1) {
-         ataqueEnemigo.push('CABALLERO')
-
+    let ataqueAleatorio = aleatorio(0,ataquesPersonajeEnemigo.length -1)
+    
+    if (ataqueAleatorio == 0 || ataqueAleatorio ==1) {
+        ataqueEnemigo.push('CABALLERO')
     } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
-             ataqueEnemigo.push('DRAGON')
-
+        ataqueEnemigo.push('DRAGON')
     } else {
-         ataqueEnemigo.push('TESORO') 
+        ataqueEnemigo.push('TESORO')
     }
-console.log(ataqueEnemigo )
-    combate()
+    console.log(ataqueEnemigo)
+    iniciarPelea()
+function iniciarPelea() {
+    if (ataqueJugador.length === 5) {
+        combate()
+    }
+}
+}
+
+function indexAmbosOponente(jugador, enemigo) {
+    indexAtaqueJugador = ataqueJugador[jugador]
+    indexAtaqueEnemigo = ataqueEnemigo[enemigo]
 }
 
 function combate() {
-    if (ataqueEnemigo == ataqueJugador) { crearMensaje("EMPATE") } else if (ataqueJugador == 'CABALLERO' && ataqueEnemigo == 'TESORO') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else if (ataqueJugador == 'DRAGON' && ataqueEnemigo == 'CABALLERO') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else if (ataqueJugador == 'TESORO' && ataqueEnemigo == 'DRAGON') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else {
-        crearMensaje("PERDISTE")
-        vidasJugador--
-        spanVidasJugador.innerHTML = vidasJugador
+    
+    for (let index = 0; index < ataqueJugador.length; index++) {
+        if(ataqueJugador[index] === ataqueEnemigo[index]) {
+            indexAmbosOponente(index, index)
+            crearMensaje("EMPATE")
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
+        } else if (ataqueJugador[index] === 'CABALLERO' && ataqueEnemigo[index] === 'TESORO') {
+            indexAmbosOponente(index, index)
+            crearMensaje("GANASTE")
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
+        } else if (ataqueJugador[index] ==='DRAGON' && ataqueEnemigo[index] === 'CABALLERO') {
+            indexAmbosOponente(index, index)
+            crearMensaje("GANASTE")
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
+        } else if (ataqueJugador[index] === 'TESORO' && ataqueEnemigo[index] === 'DRAGON') {
+            indexAmbosOponente(index, index)
+            crearMensaje("GANASTE")
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
+        } else {
+            indexAmbosOponente(index, index)
+            crearMensaje("PERDISTE")
+            victoriasEnemigo++
+            spanVidasEnemigo.innerHTML = victoriasEnemigo
+        }
     }
+
     revisarVidas()
 }
 
-function revisarVidas() { if (vidasEnemigo == 0) { crearMensajeFinal("FELICITACIONES! Ganaste :)") } else if (vidasJugador == 0) { crearMensajeFinal('Lo siento, perdiste :(') } }
+function revisarVidas() {
+    if (victoriasJugador === victoriasEnemigo) {
+        crearMensajeFinal("Esto fue un empate!!!")
+    } else if (victoriasJugador > victoriasEnemigo) {
+        crearMensajeFinal("FELICITACIONES! Ganaste :)")
+    } else {
+        crearMensajeFinal('Lo siento, perdiste :(')
+    }
+}
 
 function crearMensaje(resultado) {
     let nuevoAtaqueDelJugador = document.createElement('p')
     let nuevoAtaqueDelEnemigo = document.createElement('p')
     sectionMensajes.innerHTML = resultado
-    nuevoAtaqueDelJugador.innerHTML = ataqueJugador
-    nuevoAtaqueDelEnemigo.innerHTML = ataqueEnemigo
+    nuevoAtaqueDelJugador.innerHTML = indexAtaqueJugador
+    nuevoAtaqueDelEnemigo.innerHTML = indexAtaqueEnemigo
     ataquesDelJugador.appendChild(nuevoAtaqueDelJugador)
     ataquesDelEnemigo.appendChild(nuevoAtaqueDelEnemigo)
 }
