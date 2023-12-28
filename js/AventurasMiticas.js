@@ -120,15 +120,18 @@ function secuenciaAtaque() {
             if (e.target.textContent === '⚔') {
                 ataqueJugador.push('CABALLERO')
                 console.log(ataqueJugador)
-                boton.style.background = '#112f58'   
+                boton.style.background = '#112f58'  
+                boton.disabled = true; 
             } else if (e.target.textContent === '🐉') {
                 ataqueJugador.push('DRAGON')
                 console.log(ataqueJugador)
                 boton.style.background = '#112f58'
+                boton.disabled = true;
             } else {
                 ataqueJugador.push('TESORO')
                 console.log(ataqueJugador)
                 boton.style.background = '#112f58'
+                boton.disabled = true;
             }
             ataqueAleatorioEnemigo()
         })
