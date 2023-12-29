@@ -17,6 +17,8 @@ const ataquesDelJugador = document.getElementById('ataques-del-jugador')
 const ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
 const contenedorTarjetas = document.getElementById('contenedorTarjetas')
 const contenedorAtaques = document.getElementById('contenedorAtaques')
+const sectionVerMapa = document.getElementById('ver-mapa')
+const mapa = document.getElementById('mapa')
 
 let Personajes = []
 let ataqueJugador = []
@@ -38,6 +40,7 @@ let victoriasJugador = 0;
 let victoriasEnemigo = 0;
 let vidasJugador = 3;
 let vidasEnemigo = 3;
+let lienzo = mapa.getContext('2d')
 
 class personajeAventurasMiticas {
     constructor(nombre, foto, vida) {
@@ -59,6 +62,7 @@ Personajes.push(reina, draco, sir)
 
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
+    sectionVerMapa.style.display = 'none'
     Personajes.forEach((mokepon) => {
         opcionDePersonajes = `
         <input type="radio" name="mascota" id=${mokepon.nombre} />
@@ -77,7 +81,19 @@ function iniciarJuego() {
 }
 function seleccionarpersonajeJugador() {
     sectionSeleccionarPersonaje.style.display = 'none'
-    sectionSeleccionarAtaque.style.display = 'flex'
+
+    // sectionSeleccionarAtaque.style.display = 'flex'
+        sectionVerMapa.style.display = 'flex'
+        let imagenDeReina = new Image()
+        imagenDeReina.src = reina.foto
+        lienzo.drawImage(
+            imagenDeReina,
+            20,
+            40,
+            100,
+            100
+        )
+
     if (inputReina.checked) {
         spanPersonajeJugador.innerHTML = inputReina.id
         personajeJugador = inputReina.id
