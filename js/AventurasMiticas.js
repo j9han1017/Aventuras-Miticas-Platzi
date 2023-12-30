@@ -56,7 +56,7 @@ class personajeAventurasMiticas {
         this.mapaFoto = new Image()
         this.mapaFoto.src = foto
         this.velocidadX = 0
-        this.velocidadY = 0  
+        this.velocidadY = 0
 
     }
 }
@@ -93,8 +93,9 @@ function seleccionarpersonajeJugador() {
     sectionSeleccionarPersonaje.style.display = 'none'
 
     // sectionSeleccionarAtaque.style.display = 'flex'
-        sectionVerMapa.style.display = 'flex'
-        intervalo = setInterval(pintarPersonaje, 50)
+    sectionVerMapa.style.display = 'flex'
+    iniciarMapa()
+
     if (inputReina.checked) {
         spanPersonajeJugador.innerHTML = inputReina.id
         personajeJugador = inputReina.id
@@ -137,8 +138,8 @@ function secuenciaAtaque() {
             if (e.target.textContent === '⚔') {
                 ataqueJugador.push('CABALLERO')
                 console.log(ataqueJugador)
-                boton.style.background = '#112f58'  
-                boton.disabled = true; 
+                boton.style.background = '#112f58'
+                boton.disabled = true;
             } else if (e.target.textContent === '🐉') {
                 ataqueJugador.push('DRAGON')
                 console.log(ataqueJugador)
@@ -153,12 +154,12 @@ function secuenciaAtaque() {
             ataqueAleatorioEnemigo()
         })
     })
-    
+
 
 }
 
 function seleccionarMascotaEnemigo() {
-    let personajeAleatorio = aleatorio(0, Personajes.length -1)
+    let personajeAleatorio = aleatorio(0, Personajes.length - 1)
 
     spanPersonajeEnemigo.innerHTML = Personajes[personajeAleatorio].nombre
     ataquesPersonajeEnemigo = Personajes[personajeAleatorio].ataques
@@ -166,9 +167,9 @@ function seleccionarMascotaEnemigo() {
 }
 
 function ataqueAleatorioEnemigo() {
-    let ataqueAleatorio = aleatorio(0,ataquesPersonajeEnemigo.length -1)
-    
-    if (ataqueAleatorio == 0 || ataqueAleatorio ==1) {
+    let ataqueAleatorio = aleatorio(0, ataquesPersonajeEnemigo.length - 1)
+
+    if (ataqueAleatorio == 0 || ataqueAleatorio == 1) {
         ataqueEnemigo.push('CABALLERO')
     } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
         ataqueEnemigo.push('DRAGON')
@@ -177,11 +178,11 @@ function ataqueAleatorioEnemigo() {
     }
     console.log(ataqueEnemigo)
     iniciarPelea()
-function iniciarPelea() {
-    if (ataqueJugador.length === 5) {
-        combate()
+    function iniciarPelea() {
+        if (ataqueJugador.length === 5) {
+            combate()
+        }
     }
-}
 }
 
 function indexAmbosOponente(jugador, enemigo) {
@@ -190,9 +191,9 @@ function indexAmbosOponente(jugador, enemigo) {
 }
 
 function combate() {
-    
+
     for (let index = 0; index < ataqueJugador.length; index++) {
-        if(ataqueJugador[index] === ataqueEnemigo[index]) {
+        if (ataqueJugador[index] === ataqueEnemigo[index]) {
             indexAmbosOponente(index, index)
             crearMensaje("EMPATE")
             victoriasJugador++
@@ -202,7 +203,7 @@ function combate() {
             crearMensaje("GANASTE")
             victoriasJugador++
             spanVidasJugador.innerHTML = victoriasJugador
-        } else if (ataqueJugador[index] ==='DRAGON' && ataqueEnemigo[index] === 'CABALLERO') {
+        } else if (ataqueJugador[index] === 'DRAGON' && ataqueEnemigo[index] === 'CABALLERO') {
             indexAmbosOponente(index, index)
             crearMensaje("GANASTE")
             victoriasJugador++
@@ -256,7 +257,7 @@ function reiniciarJuego() { location.reload() }
 function aleatorio(min, max) { return Math.floor(Math.random() * (max - min + 1) + min) }
 
 
-function pintarPersonaje(){
+function pintarPersonaje() {
     reina.x = reina.x + reina.velocidadX
     reina.y = reina.y + reina.velocidadY
 
@@ -293,4 +294,30 @@ function detenerMovimiento() {
 
 }
 
+function sePresionoUnaTecla(event) {
+    switch (event.key) {
+        case 'ArrowUp':
+            moverArriba()
+            break
+        case 'ArrowDown':
+            moverAbajo()
+            break
+        case 'ArrowLeft':
+            moverIzquierda()
+            break
+         case 'ArrowRight':
+            moverDerecha()
+            break
+        default:
+            break
+    }
+}
+
+function iniciarMapa(){
+    intervalo = setInterval(pintarPersonaje, 50)
+
+    window.addEventListener('keydown', sePresionoUnaTecla)
+
+    window.addEventListener('keyup', detenerMovimiento)
+}
 window.addEventListener('load', iniciarJuego)
