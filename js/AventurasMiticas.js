@@ -41,6 +41,7 @@ let victoriasEnemigo = 0;
 let vidasJugador = 3;
 let vidasEnemigo = 3;
 let lienzo = mapa.getContext('2d')
+let intervalo
 
 class personajeAventurasMiticas {
     constructor(nombre, foto, vida) {
@@ -54,6 +55,8 @@ class personajeAventurasMiticas {
         this.alto = 80
         this.mapaFoto = new Image()
         this.mapaFoto.src = foto
+        this.velocidadX = 0
+        this.velocidadY = 0  
 
     }
 }
@@ -91,7 +94,7 @@ function seleccionarpersonajeJugador() {
 
     // sectionSeleccionarAtaque.style.display = 'flex'
         sectionVerMapa.style.display = 'flex'
-        
+        intervalo = setInterval(pintarPersonaje, 50)
     if (inputReina.checked) {
         spanPersonajeJugador.innerHTML = inputReina.id
         personajeJugador = inputReina.id
@@ -254,6 +257,9 @@ function aleatorio(min, max) { return Math.floor(Math.random() * (max - min + 1)
 
 
 function pintarPersonaje(){
+    reina.x = reina.x + reina.velocidadX
+    reina.y = reina.y + reina.velocidadY
+
     lienzo.clearRect(0, 0, mapa.width, mapa.height)
     lienzo.drawImage(
         reina.mapaFoto,
@@ -265,9 +271,26 @@ function pintarPersonaje(){
 }
 
 
-function moverReina() {
-    reina.x = reina.x + 5
-    pintarPersonaje()
+function moverDerecha() {
+    reina.velocidadX = 5
+}
+
+function moverIzquierda() {
+    reina.velocidadX = -5
+}
+
+function moverAbajo() {
+    reina.velocidadY = 5
+}
+
+function moverArriba() {
+    reina.velocidadY = -5
+}
+
+function detenerMovimiento() {
+    reina.velocidadX = 0
+    reina.velocidadY = 0
+
 }
 
 window.addEventListener('load', iniciarJuego)
