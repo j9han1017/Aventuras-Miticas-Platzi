@@ -20,6 +20,7 @@ const contenedorAtaques = document.getElementById('contenedorAtaques')
 const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
 
+
 let Personajes = []
 let ataqueJugador = []
 let ataqueEnemigo = []
@@ -29,6 +30,7 @@ let inputDraco
 let inputSir
 let ataquesPersonajeEnemigo
 let personajeJugador
+let personajeJugadorObjeto
 let ataquesPersonaje
 let botonCaballero
 let botonDragon
@@ -42,6 +44,8 @@ let vidasJugador = 3;
 let vidasEnemigo = 3;
 let lienzo = mapa.getContext('2d')
 let intervalo
+let mapaBackground = new Image()
+mapaBackground.src = './assets/mapa.png'
 
 class personajeAventurasMiticas {
     constructor(nombre, foto, vida) {
@@ -93,8 +97,6 @@ function seleccionarpersonajeJugador() {
     sectionSeleccionarPersonaje.style.display = 'none'
 
     // sectionSeleccionarAtaque.style.display = 'flex'
-    sectionVerMapa.style.display = 'flex'
-    iniciarMapa()
 
     if (inputReina.checked) {
         spanPersonajeJugador.innerHTML = inputReina.id
@@ -107,12 +109,16 @@ function seleccionarpersonajeJugador() {
         personajeJugador = inputSir.id
     } else { alert('Selecciona un personaje') }
     extraerAtaques(personajeJugador)
+    sectionVerMapa.style.display = 'flex'
+    iniciarMapa()
     seleccionarMascotaEnemigo()
 }
 
 function extraerAtaques(personajeJugador) {
     let ataques
-    for (let i = 0; i < Personajes.length; i++) { if (personajeJugador === Personajes[i].nombre) { ataques = Personajes[i].ataques } }
+    for (let i = 0; i < Personajes.length; i++) {
+         if (personajeJugador === Personajes[i].nombre) {
+         ataques = Personajes[i].ataques } }
     mostrarAtaques(ataques)
 }
 
@@ -257,40 +263,49 @@ function reiniciarJuego() { location.reload() }
 function aleatorio(min, max) { return Math.floor(Math.random() * (max - min + 1) + min) }
 
 
-function pintarPersonaje() {
-    reina.x = reina.x + reina.velocidadX
-    reina.y = reina.y + reina.velocidadY
-
+function pintarCanvas() {
+    
+    personajeJugadorObjeto.x = personajeJugadorObjeto.x + personajeJugadorObjeto.velocidadX
+    personajeJugadorObjeto.y = personajeJugadorObjeto.y + personajeJugadorObjeto.velocidadY
     lienzo.clearRect(0, 0, mapa.width, mapa.height)
     lienzo.drawImage(
-        reina.mapaFoto,
-        reina.x,
-        reina.y,
-        reina.ancho,
-        reina.alto
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height
+        )
+    lienzo.drawImage(
+        personajeJugadorObjeto.mapaFoto,
+        personajeJugadorObjeto.x,
+        personajeJugadorObjeto.y,
+        personajeJugadorObjeto.ancho,
+        personajeJugadorObjeto.alto
     )
 }
 
 
 function moverDerecha() {
-    reina.velocidadX = 5
+    personajeJugadorObjeto.velocidadX = 5
 }
 
 function moverIzquierda() {
-    reina.velocidadX = -5
+    personajeJugadorObjeto.velocidadX = -5
 }
 
 function moverAbajo() {
-    reina.velocidadY = 5
+
+    personajeJugadorObjeto.velocidadY = 5
 }
 
 function moverArriba() {
-    reina.velocidadY = -5
+  
+    personajeJugadorObjeto.velocidadY = -5
 }
 
 function detenerMovimiento() {
-    reina.velocidadX = 0
-    reina.velocidadY = 0
+    personajeJugadorObjeto.velocidadX = 0
+    personajeJugadorObjeto.velocidadY = 0
 
 }
 
@@ -314,10 +329,22 @@ function sePresionoUnaTecla(event) {
 }
 
 function iniciarMapa(){
-    intervalo = setInterval(pintarPersonaje, 50)
+
+    mapa.width = 320 
+    mapa.height = 240
+    personajeJugadorObjeto = obtenerObjetoPersonaje(personajeJugador)
+    intervalo = setInterval(pintarCanvas, 50)
 
     window.addEventListener('keydown', sePresionoUnaTecla)
 
     window.addEventListener('keyup', detenerMovimiento)
+}
+
+function obtenerObjetoPersonaje() {
+    for (let i = 0; i < Personajes.length; i++) {
+        if (personajeJugador === Personajes[i].nombre) {
+        return Personajes[i] 
+    }
+ }
 }
 window.addEventListener('load', iniciarJuego)
