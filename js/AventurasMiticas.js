@@ -48,26 +48,33 @@ let mapaBackground = new Image()
 mapaBackground.src = './assets/mapa.png'
 
 class personajeAventurasMiticas {
-    constructor(nombre, foto, vida) {
+    constructor(nombre, foto, vida, fotoMapa, x = 10, y = 10) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.ataques = []
         this.x = 20
         this.y = 30
-        this.ancho = 80
-        this.alto = 80
+        this.ancho = 40
+        this.alto = 40
         this.mapaFoto = new Image()
-        this.mapaFoto.src = foto
+        this.mapaFoto.src = fotoMapa
         this.velocidadX = 0
         this.velocidadY = 0
 
     }
+
+    pintarPersonaje(){}
 }
 
-let reina = new personajeAventurasMiticas('Reina', './assets/reinajoya.png', 5)
-let draco = new personajeAventurasMiticas('Draco', './assets/draco.png', 5)
-let sir = new personajeAventurasMiticas('Sir', './assets/sir.png', 5)
+let reina = new personajeAventurasMiticas('Reina', './assets/reinajoya.png', 5, './assets/reina,cabeza.png')
+let draco = new personajeAventurasMiticas('Draco', './assets/draco.png', 5, './assets/draco,cabeza.png')
+let sir = new personajeAventurasMiticas('Sir', './assets/sir.png', 5, './assets/sir,cabeza.png')
+
+let reinaEnemigo = new personajeAventurasMiticas('Reina', './assets/reinajoya.png', 5, './assets/reina,cabeza.png', 80, 120)
+let dracoEnemigo = new personajeAventurasMiticas('Draco', './assets/draco.png', 5, './assets/draco,cabeza.png', 150, 95)
+let sirEnemigo = new personajeAventurasMiticas('Sir', './assets/sir.png', 5, './assets/sir,cabeza.png', 200, 190)
+
 
 reina.ataques.push({ nombre: '💎', id: 'boton-tesoro' }, { nombre: '💎', id: 'boton-tesoro' }, { nombre: '💎', id: 'boton-tesoro' }, { nombre: '⚔', id: 'boton-caballero' }, { nombre: '🐉', id: 'boton-dragon' },)
 draco.ataques.push({ nombre: '🐉', id: 'boton-dragon' }, { nombre: '🐉', id: 'boton-dragon' }, { nombre: '🐉', id: 'boton-dragon' }, { nombre: '💎', id: 'boton-tesoro' }, { nombre: '⚔', id: 'boton-caballero' },)
