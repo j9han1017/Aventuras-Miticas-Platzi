@@ -299,6 +299,11 @@ function pintarCanvas() {
     reinaEnemigo.pintarPersonaje()
     dracoEnemigo.pintarPersonaje()
     sirEnemigo.pintarPersonaje()
+    if (personajeJugadorObjeto.velocidadX !== 0 || personajeJugadorObjeto.velocidadY !== 0) {
+        revisarColision(reinaEnemigo)
+        revisarColision(dracoEnemigo)
+        revisarColision(sirEnemigo)
+    }
 }
 
 
@@ -363,5 +368,33 @@ function obtenerObjetoPersonaje() {
             return Personajes[i]
         }
     }
+}
+
+function revisarColision(enemigo) {
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+    const izquierdaEnemigo = enemigo.x
+
+    const arribaPersonaje =
+        personajeJugadorObjeto.y
+    const abajoPersonaje =
+        personajeJugadorObjeto.y + personajeJugadorObjeto.alto
+    const derechaPersonaje =
+        personajeJugadorObjeto.x + personajeJugadorObjeto.ancho
+    const izquierdaPersonaje =
+        personajeJugadorObjeto.x
+
+if (
+    abajoPersonaje < arribaEnemigo ||
+    arribaPersonaje > abajoEnemigo ||
+    derechaPersonaje < izquierdaEnemigo ||
+    izquierdaPersonaje > derechaEnemigo
+) {
+    return
+}
+detenerMovimiento()
+alert("Hay colision " + enemigo.nombre)
+
 }
 window.addEventListener('load', iniciarJuego)
