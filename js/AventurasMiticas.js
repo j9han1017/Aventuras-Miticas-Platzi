@@ -53,8 +53,8 @@ class personajeAventurasMiticas {
         this.foto = foto
         this.vida = vida
         this.ataques = []
-        this.x = 20
-        this.y = 30
+        this.x = x
+        this.y = y
         this.ancho = 40
         this.alto = 40
         this.mapaFoto = new Image()
@@ -64,7 +64,18 @@ class personajeAventurasMiticas {
 
     }
 
-    pintarPersonaje(){}
+
+
+    pintarPersonaje() {
+        lienzo.drawImage(
+            this.mapaFoto,
+            this.x,
+            this.y,
+            this.ancho,
+            this.alto
+        )
+
+    }
 }
 
 let reina = new personajeAventurasMiticas('Reina', './assets/reinajoya.png', 5, './assets/reina,cabeza.png')
@@ -124,8 +135,10 @@ function seleccionarpersonajeJugador() {
 function extraerAtaques(personajeJugador) {
     let ataques
     for (let i = 0; i < Personajes.length; i++) {
-         if (personajeJugador === Personajes[i].nombre) {
-         ataques = Personajes[i].ataques } }
+        if (personajeJugador === Personajes[i].nombre) {
+            ataques = Personajes[i].ataques
+        }
+    }
     mostrarAtaques(ataques)
 }
 
@@ -271,7 +284,7 @@ function aleatorio(min, max) { return Math.floor(Math.random() * (max - min + 1)
 
 
 function pintarCanvas() {
-    
+
     personajeJugadorObjeto.x = personajeJugadorObjeto.x + personajeJugadorObjeto.velocidadX
     personajeJugadorObjeto.y = personajeJugadorObjeto.y + personajeJugadorObjeto.velocidadY
     lienzo.clearRect(0, 0, mapa.width, mapa.height)
@@ -281,14 +294,11 @@ function pintarCanvas() {
         0,
         mapa.width,
         mapa.height
-        )
-    lienzo.drawImage(
-        personajeJugadorObjeto.mapaFoto,
-        personajeJugadorObjeto.x,
-        personajeJugadorObjeto.y,
-        personajeJugadorObjeto.ancho,
-        personajeJugadorObjeto.alto
     )
+    personajeJugadorObjeto.pintarPersonaje()
+    reinaEnemigo.pintarPersonaje()
+    dracoEnemigo.pintarPersonaje()
+    sirEnemigo.pintarPersonaje()
 }
 
 
@@ -306,7 +316,7 @@ function moverAbajo() {
 }
 
 function moverArriba() {
-  
+
     personajeJugadorObjeto.velocidadY = -5
 }
 
@@ -327,7 +337,7 @@ function sePresionoUnaTecla(event) {
         case 'ArrowLeft':
             moverIzquierda()
             break
-         case 'ArrowRight':
+        case 'ArrowRight':
             moverDerecha()
             break
         default:
@@ -335,9 +345,9 @@ function sePresionoUnaTecla(event) {
     }
 }
 
-function iniciarMapa(){
+function iniciarMapa() {
 
-    mapa.width = 320 
+    mapa.width = 320
     mapa.height = 240
     personajeJugadorObjeto = obtenerObjetoPersonaje(personajeJugador)
     intervalo = setInterval(pintarCanvas, 50)
@@ -350,8 +360,8 @@ function iniciarMapa(){
 function obtenerObjetoPersonaje() {
     for (let i = 0; i < Personajes.length; i++) {
         if (personajeJugador === Personajes[i].nombre) {
-        return Personajes[i] 
+            return Personajes[i]
+        }
     }
- }
 }
 window.addEventListener('load', iniciarJuego)
