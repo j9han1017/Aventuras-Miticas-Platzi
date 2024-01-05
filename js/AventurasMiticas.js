@@ -40,12 +40,19 @@ let indexAtaqueJugador
 let indexAtaqueEnemigo
 let victoriasJugador = 0;
 let victoriasEnemigo = 0;
-let vidasJugador = 3;
-let vidasEnemigo = 3;
+let vidasJugador = 3
+let vidasEnemigo = 3
 let lienzo = mapa.getContext('2d')
 let intervalo
 let mapaBackground = new Image()
 mapaBackground.src = './assets/mapa.png'
+let alturaQueBuscamos
+let anchoDelMapa = window.innerWidth -20
+
+alturaQueBuscamos = anchoDelMapa * 600 / 800
+
+mapa.width = anchoDelMapa
+mapa.height = alturaQueBuscamos
 
 class personajeAventurasMiticas {
     constructor(nombre, foto, vida, fotoMapa, x = 10, y = 10) {
@@ -114,8 +121,6 @@ function iniciarJuego() {
 function seleccionarpersonajeJugador() {
     sectionSeleccionarPersonaje.style.display = 'none'
 
-    // sectionSeleccionarAtaque.style.display = 'flex'
-
     if (inputReina.checked) {
         spanPersonajeJugador.innerHTML = inputReina.id
         personajeJugador = inputReina.id
@@ -129,7 +134,7 @@ function seleccionarpersonajeJugador() {
     extraerAtaques(personajeJugador)
     sectionVerMapa.style.display = 'flex'
     iniciarMapa()
-    seleccionarMascotaEnemigo()
+
 }
 
 function extraerAtaques(personajeJugador) {
@@ -289,7 +294,7 @@ function pintarCanvas() {
     personajeJugadorObjeto.y = personajeJugadorObjeto.y + personajeJugadorObjeto.velocidadY
     lienzo.clearRect(0, 0, mapa.width, mapa.height)
     lienzo.drawImage(
-        mapaBackground,
+        mapaBackground, 
         0,
         0,
         mapa.width,
@@ -352,8 +357,6 @@ function sePresionoUnaTecla(event) {
 
 function iniciarMapa() {
 
-    mapa.width = 320
-    mapa.height = 240
     personajeJugadorObjeto = obtenerObjetoPersonaje(personajeJugador)
     intervalo = setInterval(pintarCanvas, 50)
 
@@ -394,7 +397,10 @@ if (
     return
 }
 detenerMovimiento()
-alert("Hay colision " + enemigo.nombre)
+sectionSeleccionarAtaque.style.display = 'flex'
+sectionVerMapa.style.display = 'none'
+seleccionarMascotaEnemigo(enemigo)
+
 
 }
 window.addEventListener('load', iniciarJuego)
