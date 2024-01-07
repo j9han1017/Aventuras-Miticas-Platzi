@@ -33,7 +33,7 @@ body {
   font-size: 40px;
 }
 
-.tarjeta-de-mokepon {
+.tarjeta-de-Aventuras {
   width: 300px;
   height: 170px;
   background: #B6BBC4;
@@ -48,7 +48,7 @@ body {
   color: black;
 }
 
-.tarjeta-de-mokepon img {
+.tarjeta-de-Aventuras img {
   width: 150px;
 }
 
@@ -141,8 +141,15 @@ input:checked+label {
   justify-content: center;
 }
 
-#mapa{
-  border: 2px solid white;
+#ver-mapa button{
+  width:80px;
+  height:40px;
+  border-radius:20px;
+  background:0 0;
+  border:2px solid #fff;
+  color:#fff;
+  font-family: 'Lobster', sans-serif;
+  margin:10px 0
 }
 
 @media (max-width: 360px) {
@@ -150,5 +157,10 @@ input:checked+label {
   .tarjetas,
   .tarjetas-ataques {
     flex-direction: column;
+  }
+}
+@media(max-width:300px){
+  #ver-mapa div{
+    display:flex;align-items:center;flex-direction:column
   }
 }
