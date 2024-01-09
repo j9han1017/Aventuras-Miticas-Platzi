@@ -22,7 +22,7 @@ const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
 
 let personajes = []
-let ataqueJugador =[]
+let ataqueJugador = []
 let ataqueEnemigo = []
 let opcionDePersonajes
 let inputReina
@@ -39,7 +39,7 @@ let botones = []
 let indexAtaqueJugador
 let indexAtaqueEnemigo
 let victoriasJugador = 0
-let victoriasEnemigo = 0 
+let victoriasEnemigo = 0
 let vidasJugador = 3
 let vidasEnemigo = 3
 let lienzo = mapa.getContext("2d")
@@ -120,7 +120,7 @@ draco.ataques.push(
     { nombre: '💎', id: 'boton-tesoro' },
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '⚔️', id: 'boton-caballero' },
-    
+
 )
 
 dracoEnemigo.ataques.push(
@@ -129,13 +129,13 @@ dracoEnemigo.ataques.push(
     { nombre: '💎', id: 'boton-tesoro' },
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '⚔️', id: 'boton-caballero' },
-    
+
 )
 
 sir.ataques.push(
     { nombre: '⚔️', id: 'boton-caballero' },
     { nombre: '⚔️', id: 'boton-caballero' },
-    { nombre: '⚔️', id: 'boton-caballero' }, 
+    { nombre: '⚔️', id: 'boton-caballero' },
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '💎', id: 'boton-tesoro' },
 )
@@ -143,15 +143,15 @@ sir.ataques.push(
 sirEnemigo.ataques.push(
     { nombre: '⚔️', id: 'boton-caballero' },
     { nombre: '⚔️', id: 'boton-caballero' },
-    { nombre: '⚔️', id: 'boton-caballero' }, 
+    { nombre: '⚔️', id: 'boton-caballero' },
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '💎', id: 'boton-tesoro' },
 )
 
-personajes.push(reina,draco,sir)
+personajes.push(reina, draco, sir)
 
 function iniciarJuego() {
-    
+
     sectionSeleccionarAtaque.style.display = 'none'
     sectionVerMapa.style.display = 'none'
 
@@ -163,23 +163,39 @@ function iniciarJuego() {
             <img src=${Aventuras.foto} alt=${Aventuras.nombre}>
         </label>
         `
-    contenedorTarjetas.innerHTML += opcionDePersonajes
+        contenedorTarjetas.innerHTML += opcionDePersonajes
 
-     inputReina = document.getElementById('Reina')
-     inputDraco = document.getElementById('Draco')
-     inputSir = document.getElementById('Sir')
+        inputReina = document.getElementById('Reina')
+        inputDraco = document.getElementById('Draco')
+        inputSir = document.getElementById('Sir')
 
     })
-    
+
     botonpersonajeJugador.addEventListener('click', seleccionarpersonajeJugador)
 
     botonReiniciar.addEventListener('click', reiniciarJuego)
+
+    unirseAlJuego()
+}
+
+function unirseAlJuego() {
+    fetch("http://localhost:8080/unirse")
+        .then(function (res) {
+
+            if (res.ok) {
+                res.text()
+                    .then(function (respuesta) {
+                        console.log(respuesta)
+                        jugadorId = respuesta
+                    })
+            }
+        })
 }
 
 function seleccionarpersonajeJugador() {
-    
+
     sectionSeleccionarpersonaje.style.display = 'none'
-    
+
     if (inputReina.checked) {
         spanPersonajeJugador.innerHTML = inputReina.id
         personajeJugador = inputReina.id
@@ -190,12 +206,27 @@ function seleccionarpersonajeJugador() {
         spanPersonajeJugador.innerHTML = inputSir.id
         personajeJugador = inputSir.id
     } else {
-        alert('Selecciona una personaje')
+        alert('Selecciona un personaje')
     }
+
+    seleccionarpersonaje(personajeJugador)
 
     extraerAtaques(personajeJugador)
     sectionVerMapa.style.display = 'flex'
     iniciarMapa()
+}
+
+function seleccionarpersonaje(personajeJugador) {
+    fetch(`http://localhost:8080/personaje/${jugadorId}`,{
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            personaje:personajeJugador
+        })
+    } )
+    
 }
 
 function extraerAtaques(personajeJugador) {
@@ -204,7 +235,7 @@ function extraerAtaques(personajeJugador) {
         if (personajeJugador === personajes[i].nombre) {
             ataques = personajes[i].ataques
         }
-        
+
     }
     mostrarAtaques(ataques)
 }
@@ -217,10 +248,10 @@ function mostrarAtaques(ataques) {
         contenedorAtaques.innerHTML += ataquesPersonaje
     })
 
-     botoncaballero = document.getElementById('boton-caballero')
-     botondragon = document.getElementById('boton-dragon')
-     botontesoro = document.getElementById('boton-tesoro')
-     botones = document.querySelectorAll('.BAtaque')
+    botoncaballero = document.getElementById('boton-caballero')
+    botondragon = document.getElementById('boton-dragon')
+    botontesoro = document.getElementById('boton-tesoro')
+    botones = document.querySelectorAll('.BAtaque')
 }
 
 function secuenciaAtaque() {
@@ -230,22 +261,22 @@ function secuenciaAtaque() {
                 ataqueJugador.push('CABALLERO')
                 console.log(ataqueJugador)
                 boton.style.background = '#112f58'
-                boton.disabled = true   
+                boton.disabled = true
             } else if (e.target.textContent === '🐉') {
                 ataqueJugador.push('DRAGON')
                 console.log(ataqueJugador)
                 boton.style.background = '#112f58'
-                boton.disabled = true  
+                boton.disabled = true
             } else {
                 ataqueJugador.push('TESORO')
                 console.log(ataqueJugador)
                 boton.style.background = '#112f58'
-                boton.disabled = true  
+                boton.disabled = true
             }
             ataqueAleatorioEnemigo()
         })
     })
-    
+
 
 }
 
@@ -258,9 +289,9 @@ function seleccionarpersonajeEnemigo(enemigo) {
 
 function ataqueAleatorioEnemigo() {
     console.log('Ataques enemigo', ataquesPersonajeEnemigo);
-    let ataqueAleatorio = aleatorio(0,ataquesPersonajeEnemigo.length -1)
-    
-    if (ataqueAleatorio == 0 || ataqueAleatorio ==1) {
+    let ataqueAleatorio = aleatorio(0, ataquesPersonajeEnemigo.length - 1)
+
+    if (ataqueAleatorio == 0 || ataqueAleatorio == 1) {
         ataqueEnemigo.push('CABALLERO')
     } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
         ataqueEnemigo.push('DRAGON')
@@ -283,9 +314,9 @@ function indexAmbosOponente(jugador, enemigo) {
 }
 
 function combate() {
-    
+
     for (let index = 0; index < ataqueJugador.length; index++) {
-        if(ataqueJugador[index] === ataqueEnemigo[index]) {
+        if (ataqueJugador[index] === ataqueEnemigo[index]) {
             indexAmbosOponente(index, index)
             crearMensaje("EMPATE")
         } else if (ataqueJugador[index] === 'CABALLERO' && ataqueEnemigo[index] === 'TESORO') {
@@ -293,7 +324,7 @@ function combate() {
             crearMensaje("GANASTE")
             victoriasJugador++
             spanVidasJugador.innerHTML = victoriasJugador
-        } else if (ataqueJugador[index] ==='DRAGON' && ataqueEnemigo[index] === 'CABALLERO') {
+        } else if (ataqueJugador[index] === 'DRAGON' && ataqueEnemigo[index] === 'CABALLERO') {
             indexAmbosOponente(index, index)
             crearMensaje("GANASTE")
             victoriasJugador++
@@ -325,8 +356,8 @@ function revisarVidas() {
 }
 
 function crearMensaje(resultado) {
-    
-    
+
+
     let nuevoAtaqueDelJugador = document.createElement('p')
     let nuevoAtaqueDelEnemigo = document.createElement('p')
 
@@ -339,12 +370,12 @@ function crearMensaje(resultado) {
 }
 
 function crearMensajeFinal(resultadoFinal) {
-    
-    
+
+
     sectionMensajes.innerHTML = resultadoFinal
 
 
-    
+
     sectionReiniciar.style.display = 'block'
 }
 
@@ -368,6 +399,8 @@ function pintarCanvas() {
         mapa.height
     )
     personajeJugadorObjeto.pintarAventuras()
+
+    enviarPosicion(personajeJugadorObjeto.x, personajeJugadorObjeto.y)
     reinaEnemigo.pintarAventuras()
     dracoEnemigo.pintarAventuras()
     sirEnemigo.pintarAventuras()
@@ -376,6 +409,28 @@ function pintarCanvas() {
         revisarColision(dracoEnemigo)
         revisarColision(sirEnemigo)
     }
+}
+
+function enviarPosicion(x, y) {
+    fetch(`http://localhost:8080/personaje/${jugadorId}/posicion`,{
+        method: "post",
+        headers:{ 
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            x,
+            y
+        })
+    })
+    .then(function (res) {
+        if (res.ok) {
+            res.json()
+                .then(function ({enemigos}) {
+                    
+                })
+            
+        }
+    })
 }
 
 function moverDerecha() {
@@ -423,7 +478,7 @@ function iniciarMapa() {
     personajeJugadorObjeto = obtenerObjetopersonaje(personajeJugador)
     console.log(personajeJugadorObjeto, personajeJugador);
     intervalo = setInterval(pintarCanvas, 50)
-    
+
     window.addEventListener('keydown', sePresionoUnaTecla)
 
     window.addEventListener('keyup', detenerMovimiento)
@@ -434,7 +489,7 @@ function obtenerObjetopersonaje() {
         if (personajeJugador === personajes[i].nombre) {
             return personajes[i]
         }
-        
+
     }
 }
 
@@ -444,16 +499,16 @@ function revisarColision(enemigo) {
     const derechaEnemigo = enemigo.x + enemigo.ancho
     const izquierdaEnemigo = enemigo.x
 
-    const arribapersonaje = 
+    const arribapersonaje =
         personajeJugadorObjeto.y
-    const abajopersonaje = 
+    const abajopersonaje =
         personajeJugadorObjeto.y + personajeJugadorObjeto.alto
-    const derechapersonaje = 
+    const derechapersonaje =
         personajeJugadorObjeto.x + personajeJugadorObjeto.ancho
-    const izquierdapersonaje = 
+    const izquierdapersonaje =
         personajeJugadorObjeto.x
 
-    if(
+    if (
         abajopersonaje < arribaEnemigo ||
         arribapersonaje > abajoEnemigo ||
         derechapersonaje < izquierdaEnemigo ||
