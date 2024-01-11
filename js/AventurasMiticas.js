@@ -92,61 +92,33 @@ let draco = new Aventuras('Draco', './assets/draco.png', 5, './assets/draco,cabe
 
 let sir = new Aventuras('Sir', './assets/sir.png', 5, './assets/sir,cabeza.png')
 
-let reinaEnemigo = new Aventuras('Reina', './assets/reina.png', 5, './assets/reina,cabeza.png')
-
-let dracoEnemigo = new Aventuras('Draco', './assets/draco.png', 5, './assets/draco,cabeza.png')
-
-let sirEnemigo = new Aventuras('Sir', './assets/sir.png', 5, './assets/sir,cabeza.png')
-
-reina.ataques.push(
+const REINA_ATAQUES = [
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '⚔️', id: 'boton-caballero' },
     { nombre: '💎', id: 'boton-tesoro' },
-)
+]
+reina.ataques.push(...REINA_ATAQUES)
 
-reinaEnemigo.ataques.push(
-    { nombre: '🐉', id: 'boton-dragon' },
-    { nombre: '🐉', id: 'boton-dragon' },
-    { nombre: '🐉', id: 'boton-dragon' },
-    { nombre: '⚔️', id: 'boton-caballero' },
-    { nombre: '💎', id: 'boton-tesoro' },
-)
-
-draco.ataques.push(
+const DRACO_ATAQUES = [
     { nombre: '💎', id: 'boton-tesoro' },
     { nombre: '💎', id: 'boton-tesoro' },
     { nombre: '💎', id: 'boton-tesoro' },
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '⚔️', id: 'boton-caballero' },
+]
+draco.ataques.push(...DRACO_ATAQUES)
 
-)
-
-dracoEnemigo.ataques.push(
-    { nombre: '💎', id: 'boton-tesoro' },
-    { nombre: '💎', id: 'boton-tesoro' },
-    { nombre: '💎', id: 'boton-tesoro' },
-    { nombre: '🐉', id: 'boton-dragon' },
-    { nombre: '⚔️', id: 'boton-caballero' },
-
-)
-
-sir.ataques.push(
+const SIR_ATAQUES = [
     { nombre: '⚔️', id: 'boton-caballero' },
     { nombre: '⚔️', id: 'boton-caballero' },
     { nombre: '⚔️', id: 'boton-caballero' },
     { nombre: '🐉', id: 'boton-dragon' },
     { nombre: '💎', id: 'boton-tesoro' },
-)
+]
 
-sirEnemigo.ataques.push(
-    { nombre: '⚔️', id: 'boton-caballero' },
-    { nombre: '⚔️', id: 'boton-caballero' },
-    { nombre: '⚔️', id: 'boton-caballero' },
-    { nombre: '🐉', id: 'boton-dragon' },
-    { nombre: '💎', id: 'boton-tesoro' },
-)
+sir.ataques.push(...SIR_ATAQUES)
 
 personajes.push(reina, draco, sir)
 
@@ -217,16 +189,16 @@ function seleccionarpersonajeJugador() {
 }
 
 function seleccionarpersonaje(personajeJugador) {
-    fetch(`http://localhost:8080/personaje/${jugadorId}`,{
+    fetch(`http://localhost:8080/personaje/${jugadorId}`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            personaje:personajeJugador
+            personaje: personajeJugador
         })
-    } )
-    
+    })
+
 }
 
 function extraerAtaques(personajeJugador) {
@@ -412,9 +384,9 @@ function pintarCanvas() {
 }
 
 function enviarPosicion(x, y) {
-    fetch(`http://localhost:8080/personaje/${jugadorId}/posicion`,{
+    fetch(`http://localhost:8080/personaje/${jugadorId}/posicion`, {
         method: "post",
-        headers:{ 
+        headers: {
             "Content-type": "application/json"
         },
         body: JSON.stringify({
@@ -422,15 +394,32 @@ function enviarPosicion(x, y) {
             y
         })
     })
-    .then(function (res) {
-        if (res.ok) {
-            res.json()
-                .then(function ({enemigos}) {
-                    
-                })
-            
-        }
-    })
+        .then(function (res) {
+            if (res.ok) {
+                res.json()
+                    .then(function ({ enemigos }) {
+                        console.log(enemigos)
+                        let personajeEnemigo = null
+                        enemigos.forEach(function (enemigo) {
+                            const personajeNombre = enemigo.personaje.nombre || ""
+                            if (personajeNombre === "Reina") {
+                                personajeEnemigo = new Aventuras('Reina', './assets/reina.png', 5, './assets/reina,cabeza.png')
+                            } else if (personajeNombre === "Draco") {
+                                personajeEnemigo = new Aventuras('Draco', './assets/draco.png', 5, './assets/draco,cabeza.png')
+
+                            } else if (personajeNombre === "Sir") {
+                                personajeEnemigo = new Aventuras('Sir', './assets/sir.png', 5, './assets/sir,cabeza.png')
+
+                            }
+
+                            personajeEnemigo.pintarAventuras()
+                        })
+
+
+                    })
+
+            }
+        })
 }
 
 function moverDerecha() {
