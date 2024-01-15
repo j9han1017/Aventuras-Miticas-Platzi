@@ -12,7 +12,7 @@ Este proyecto implementa un juego de aventuras interactivo donde el jugador elig
 ### Ataques y Combate
 - Cada personaje tiene una serie de ataques representados por emojis (⚔️, 🐉, 💎).
 - El jugador elige un ataque, y el enemigo realiza un ataque aleatorio.
-- Los resultados del combate se muestran en la interfaz.
+- Los resultados del combate se muestran en la interfaz..
 
 ### Mapa de Aventuras
 - El juego se desarrolla en un mapa visualizado en un canvas.
