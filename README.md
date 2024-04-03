@@ -9,7 +9,7 @@ Este proyecto implementa un juego de aventuras interactivo donde el jugador elig
 - Al iniciar el juego, el jugador puede elegir entre tres personajes: Reina, Draco y Sir.
 - El personaje seleccionado se muestra en pantalla y se inicia la partida.
 
-### Ataques y Combate
+### Ataques y Combate.
 - Cada personaje tiene una serie de ataques representados por emojis (⚔️, 🐉, 💎).
 - El jugador elige un ataque, y el enemigo realiza un ataque aleatorio.
 - Los resultados del combate se muestran en la interfaz..
